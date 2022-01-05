@@ -5,9 +5,11 @@ const json = require("koa-json")
 const onerror = require("koa-onerror")
 const bodyparser = require("koa-bodyparser")
 const logger = require("koa-logger")
+const static = require("koa-static")
 
 const index = require("./routes/index")
 const users = require("./routes/users")
+const api = require("./routes/api")
 
 // error handler
 onerror(app)
@@ -20,8 +22,12 @@ app.use(
 )
 app.use(json())
 app.use(logger())
-app.use(require("koa-static")(__dirname + "/public"))
+app.use(static(__dirname + "/public"))
 
+//静态服务，自动匹配index.html
+app.use(static(__dirname + "/dist"))
+
+// views
 app.use(
   views(__dirname + "/views", {
     extension: "pug",
@@ -36,9 +42,16 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+
+app.use(async (ctx, next) => {
+  
+  await next();
+})
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(api.routes(),api.allowedMethods())
 
 // error-handling
 app.on("error", (err, ctx) => {
