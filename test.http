@@ -1,0 +1,29 @@
+### getNameById
+GET http://localhost/getnamebyId?id=17081103
+
+### string post test
+POST http://localhost/updateNameById
+Content-Type: application/json
+
+{
+  "name":"luchang",
+  "id":23
+}
+
+### change name to new name
+POST http://localhost/updateNameById
+Content-Type: application/json
+
+{
+  "id":17081103,
+  "name":"new name"
+}
+
+### change name to default
+POST http://localhost/updateNameById
+Content-Type: application/json
+
+{
+  "id":17081103,
+  "name":"luchang"
+}

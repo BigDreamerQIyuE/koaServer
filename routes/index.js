@@ -1,26 +1,49 @@
 const router = require("koa-router")()
 
-router.get("/render", async (ctx, next) => {
-  await ctx.render("index", {
-    title: "Hello Koa 2!",
-  })
-})
+const profile = {
+  name: "luchang",
+  age: 33,
+  id: 17081103,
+  work: "pm",
+}
 
-router.get("/page2", async (ctx, next) => {
-  console.log("test console:", ctx.host)
-  ctx.body = "koa2 string"
-})
+router.get("/getNameById", async (ctx, next) => {
+  const reqId = ctx.query.id
 
-router.get("/json", async (ctx, next) => {
-  ctx.body = {
-    title: "koa2 json",
+  if (reqId == profile.id) {
+    ctx.body = {
+      success: true,
+      name: profile.name,
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      name: `can't find ${reqId}`,
+    }
   }
+
+  await next()
 })
 
-router.post("/string", async (ctx, next) => {
-  console.log("post test :", ctx.request.body)
-  console.log("post test :", ctx.bodytype)
-  ctx.body = "test"
+router.post("/updateNameById", async (ctx, next) => {
+  const reqBody = ctx.request.body
+  const reqId = reqBody.id
+  const reqName = reqBody.name
+
+  if (reqId == profile.id) {
+    profile.name = reqName
+    ctx.body = {
+      success: true,
+      id: profile.id,
+      name: profile.name,
+    }
+  } else {
+    ctx.body = {
+      success: false,
+    }
+  }
+
+  await next()
 })
 
 module.exports = router
