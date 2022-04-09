@@ -1,5 +1,6 @@
 // mysql test code
 const mysql = require("mysql")
+const config = require("../config")
 const connection = mysql.createConnection(getStartEnv())
 
 function connectDB() {
@@ -33,8 +34,8 @@ function getStartEnv() {
 
   return {
     host: env == "dev" || "start" ? devHostname : prdHostname,
-    user: "koa",
-    password: "2017bjsgg",
+    user: config.DB_USER,
+    password: config.DB_PASSWORD,
     database: "school_info",
     port: env == "dev" || "start" ? "60226" : "3306",
   }
