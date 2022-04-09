@@ -7,6 +7,11 @@ const profile = {
   work: "pm",
 }
 
+router.get("/ver", async (ctx, next) => {
+  ctx.body = { version: "1921" }
+  await next()
+})
+
 router.get("/getNameById", async (ctx, next) => {
   const reqId = ctx.query.id
 

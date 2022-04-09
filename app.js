@@ -3,6 +3,7 @@ const app = new Koa()
 const bodyparser = require("koa-bodyparser")
 const logger = require("koa-logger")
 const static = require("koa-static")
+const db = require("./utils/database")
 
 const index = require("./routes/index")
 const users = require("./routes/users")
@@ -31,5 +32,9 @@ app.on("error", (err, ctx) => {
   console.error("server error", err, ctx)
   ctx.body = "server error"
 })
+
+// init database
+db.connectDB()
+// db.queryAllStudent()
 
 module.exports = app
